@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>افتخارات</title>
+<style>
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('Vazirmatn.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Dooran';
+  src: url('Dooran.woff2') format('woff2'), url('Dooran.ttf') format('truetype');
+  font-display: swap;
+}
+@property --a { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+
+:root {
+  --bg: #05050b;
+  --neon: #2ef2ff;
+  --neon2: #ff2bd6;
+  --gold: #ffd166;
+  --glass: rgba(255,255,255,.045);
+  --line: rgba(255,255,255,.09);
+  --text: #eef0ff;
+  --muted: #7a7fa6;
+  --ease: cubic-bezier(.25,.8,.25,1);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  min-height: 100vh;
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(900px 500px at 15% -10%, rgba(255,43,214,.14), transparent 60%),
+    radial-gradient(800px 500px at 110% 110%, rgba(46,242,255,.12), transparent 60%),
+    var(--bg);
+  padding: 44px 16px 0;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 780px; margin: 0 auto; }
+
+/* هدر */
+header { text-align: center; animation: rise .8s both; }
+h1 { margin: 0; font-size: clamp(1.9rem, 6vw, 2.9rem); font-weight: 800; line-height: 1.5; letter-spacing: -.3px; }
+h1 .nm {
+  display: block;
+  font-family: 'Dooran', 'Vazirmatn', Tahoma, sans-serif;
+  font-weight: 400;
+  font-size: 1.15em;
+  line-height: 1.6;
+  background: linear-gradient(90deg, var(--neon), #b69cff 50%, var(--neon2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 18px rgba(46,242,255,.25));
+}
+.eyebrow { margin: 6px 0 0; font-size: 1rem; font-weight: 300; color: var(--muted); letter-spacing: 1px; }
+
+/* پیشرفت */
+.progress { margin: 30px auto 6px; max-width: 520px; animation: rise .8s .15s both; }
+.steps { display: flex; gap: 6px; direction: rtl; }
+.step { flex: 1; height: 6px; border-radius: 6px; background: rgba(255,255,255,.08); transition: background .4s; }
+.step.on { background: linear-gradient(90deg, var(--neon), var(--neon2)); box-shadow: 0 0 10px rgba(46,242,255,.5); }
+.step.fin { flex: 1.6; }
+.step.fin.on { background: linear-gradient(90deg, #ffd166, #ff9f43); box-shadow: 0 0 12px rgba(255,209,102,.6); }
+.pmsg { text-align: center; margin: 14px 0 0; font-size: .95rem; color: #c9cdee; line-height: 1.9; }
+.pmsg b { color: #fff; font-weight: 700; }
+
+h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 400; letter-spacing: 3px; margin: 44px 0 18px; animation: rise .8s .25s both; }
+
+/* شبکه */
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+@media (max-width: 620px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+
+/* کارت پایه */
+.badge {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px;
+  width: 100%; padding: 24px 12px 18px; border-radius: 22px;
+  background: var(--glass); border: 1px solid var(--line);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  color: inherit; font: inherit; text-align: center; overflow: hidden;
+  transition: transform .6s var(--ease), box-shadow .6s var(--ease), border-color .6s var(--ease), opacity .6s var(--ease);
+  animation: rise .7s both; animation-delay: calc(.3s + var(--i, 0) * .09s);
+}
+.badge .art {
+  width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center;
+  color: var(--neon); background: rgba(255,255,255,.03);
+  transition: transform .6s var(--ease), box-shadow .6s var(--ease);
+}
+.badge .art svg { width: 100%; height: 100%; }
+.badge .t { font-weight: 700; font-size: .98rem; transition: text-shadow .6s var(--ease); }
+.badge .s { font-size: .76rem; color: var(--muted); transition: color .6s var(--ease); }
+
+/* قفل */
+.locked { opacity: .6; }
+.locked:hover { transform: translateY(-2px); opacity: .7; border-color: rgba(255,255,255,.14); }
+.locked .art { border: 1.5px dashed rgba(255,255,255,.2); }
+.lock-q { font-size: 2.2rem; font-weight: 200; color: rgba(255,255,255,.28); }
+
+/* فعال ولی کسب‌نشده: فقط خط‌چین متفاوت و متن انتظار */
+.pending .art { border: 1.5px dashed rgba(46,242,255,.4); animation: breathe 3.2s ease-in-out infinite; }
+.pending .s { color: var(--neon); }
+.pending:hover { transform: translateY(-3px); }
+.pending:hover .art { transform: scale(1.02); }
+
+/* کسب‌شده: متعادل، کمتر بالا، نوار باریک‌تر و کمی تیره‌تر */
+.earned { cursor: pointer; border-color: transparent; }
+.earned:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(46,242,255,.10); }
+.earned:hover .art { transform: scale(1.04); }
+.earned::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+  background: conic-gradient(from var(--a), rgba(46,242,255,.8), rgba(255,43,214,.6), rgba(46,242,255,.8));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: spin 6s linear infinite; pointer-events: none;
+}
+.earned .art {
+  box-shadow: 0 0 14px rgba(46,242,255,.22), inset 0 0 10px rgba(255,43,214,.15);
+  animation: pulse 3s ease-in-out infinite;
+}
+.earned .t { color: #fff; text-shadow: 0 0 8px rgba(46,242,255,.45); }
+.earned .s { color: rgba(46,242,255,.85); }
+
+/* بج بزرگ آخر */
+.final-wrap { margin-top: 28px; display: flex; justify-content: center; }
+.badge.big {
+  max-width: 420px; padding: 40px 24px 30px; gap: 14px; border-radius: 28px;
+  background: linear-gradient(160deg, rgba(255,209,102,.08), rgba(255,255,255,.03) 45%, rgba(255,43,214,.05));
+  border: 1px solid rgba(255,209,102,.3);
+  box-shadow: 0 0 40px rgba(255,209,102,.07);
+}
+.badge.big .art { width: 170px; height: 170px; color: var(--gold); }
+.badge.big .t { font-size: 1.2rem; }
+.badge.big .lock-q { font-size: 3.4rem; color: rgba(255,209,102,.4); }
+.badge.big.locked { opacity: .85; }
+.badge.big.locked:hover { transform: translateY(-2px); border-color: rgba(255,209,102,.45); }
+.badge.big.locked .art { border: 1.5px dashed rgba(255,209,102,.4); animation: goldbreathe 4s ease-in-out infinite; }
+.badge.big.pending .art { border: 1.5px dashed rgba(255,209,102,.5); animation: goldbreathe 4s ease-in-out infinite; }
+.badge.big.earned::before { background: conic-gradient(from var(--a), rgba(255,209,102,.8), rgba(255,159,67,.5), rgba(255,209,102,.8)); animation-duration: 5s; }
+.badge.big.earned:hover { box-shadow: 0 12px 34px rgba(255,209,102,.15); }
+.badge.big.earned .art { box-shadow: 0 0 26px rgba(255,209,102,.3), inset 0 0 16px rgba(255,159,67,.18); }
+.badge.big.earned .t { text-shadow: 0 0 10px rgba(255,209,102,.5); }
+.badge.big.earned .s { color: var(--gold); }
+
+/* پاپ‌آپ */
+.overlay { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(3,3,8,.65); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); z-index: 10; }
+.overlay.open { display: flex; }
+.modal {
+  position: relative; max-width: 400px; width: 100%; padding: 32px 24px; border-radius: 24px; text-align: center;
+  background: rgba(20,20,34,.78); border: 1px solid rgba(46,242,255,.3); box-shadow: 0 0 36px rgba(46,242,255,.14);
+  backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); animation: pop .3s ease-out;
+}
+.modal #mIcon { width: 100px; height: 100px; margin: 0 auto; color: var(--neon); }
+.modal #mIcon svg { width: 100%; height: 100%; }
+.modal h3 { margin: 14px 0 10px; color: #fff; font-size: 1.25rem; }
+.modal p { line-height: 2; margin: 0; color: #d6d9f2; }
+.modal .who { color: var(--neon); font-family: 'Dooran', 'Vazirmatn', Tahoma, sans-serif; font-size: 1.2em; }
+.close { position: absolute; top: 8px; left: 14px; background: none; border: 0; color: var(--muted); font-size: 1.6rem; cursor: pointer; }
+
+/* فوتر */
+footer {
+  max-width: 780px; margin: 64px auto 0; padding: 22px 0 32px;
+  text-align: center; font-size: .92rem; color: #9ea4cf; font-weight: 500; letter-spacing: .4px; line-height: 1.9;
+}
+footer::before {
+  content: ""; display: block; width: 200px; height: 1px; margin: 0 auto 16px;
+  background: linear-gradient(90deg, transparent, rgba(46,242,255,.35), rgba(255,43,214,.35), transparent);
+}
+
+.err { text-align: center; color: #ff9aa8; font-size: .85rem; direction: ltr; white-space: pre-wrap; margin-top: 20px; }
+
+@keyframes spin { to { --a: 360deg; } }
+@keyframes pulse { 50% { box-shadow: 0 0 20px rgba(255,43,214,.3), inset 0 0 14px rgba(46,242,255,.2); } }
+@keyframes breathe { 50% { border-color: rgba(46,242,255,.8); } }
+@keyframes goldbreathe { 50% { box-shadow: 0 0 30px rgba(255,209,102,.2); border-color: rgba(255,209,102,.7); } }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } }
+@keyframes pop { from { transform: scale(.92); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="title">افتخارات</h1>
+    <p class="eyebrow" id="eyebrow"></p>
+  </header>
+  <div id="app"></div>
+</div>
+
+<footer>© ارائه‌شده توسط منتور شروین کرمی</footer>
+
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="close" id="close" aria-label="بستن">×</button>
+    <div id="mIcon"></div>
+    <h3 id="mTitle"></h3>
+    <p id="mDesc"></p>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var app = $('app');
+
+  function main() {
+    var params = new URLSearchParams(location.search);
+    var key = (params.get('student') || '').trim().toLowerCase();
+    var student = (typeof STUDENTS !== 'undefined') ? STUDENTS[key] : null;
+
+    if (!student) {
+      document.title = 'لینک نامعتبر';
+      $('title').textContent = 'لینک نامعتبر';
+      var msg = document.createElement('p');
+      msg.className = 'pmsg';
+      msg.textContent = 'این لینک معتبر نیست. لطفاً لینک شخصی خود را از معلم بگیرید.';
+      app.appendChild(msg);
+      document.querySelector('footer').style.display = 'none';
+      return;
+    }
+
+    document.title = 'افتخارات ' + student.name;
+    var nm = document.createElement('span');
+    nm.className = 'nm';
+    nm.textContent = student.name;
+    $('title').textContent = 'افتخارات ';
+    $('title').appendChild(nm);
+    $('eyebrow').textContent = 'در سیستم منتورینگ';
+
+    var REGULAR = ['b1', 'b2', 'b3', 'b4', 'b5', 'b6'];
+    var FINAL = 'final';
+    var EXTRA = student.extra || [];
+    var LOCK = '<span class="lock-q">?</span>';
+    var STAR = '<svg viewBox="0 0 100 100"><polygon points="50,8 61,38 93,38 67,57 77,88 50,70 23,88 33,57 7,38 39,38" fill="none" stroke="currentColor" stroke-width="3"/></svg>';
+
+    function def(id) {
+      return Object.assign({}, BADGE_CATALOG[id] || {}, (student.overrides && student.overrides[id]) || {});
+    }
+    function stateOf(id) {
+      if (!def(id).active) return 'locked';
+      return (student.earned || []).indexOf(id) !== -1 ? 'earned' : 'pending';
+    }
+
+    var regularEarned = REGULAR.filter(function (id) { return stateOf(id) === 'earned'; }).length;
+    var finalEarned = stateOf(FINAL) === 'earned';
+
+    var prog = document.createElement('div');
+    prog.className = 'progress';
+    var steps = document.createElement('div');
+    steps.className = 'steps';
+    for (var i = 0; i < 6; i++) {
+      var st = document.createElement('div');
+      st.className = 'step' + (i < regularEarned ? ' on' : '');
+      steps.appendChild(st);
+    }
+    var fs = document.createElement('div');
+    fs.className = 'step fin' + (finalEarned ? ' on' : '');
+    steps.appendChild(fs);
+    prog.appendChild(steps);
+
+    var pm = document.createElement('p');
+    pm.className = 'pmsg';
+    var left = 6 - regularEarned;
+    if (finalEarned) {
+      pm.textContent = 'مسیر را کامل کردی. این یعنی تعهد و پشتکار واقعی.';
+    } else if (left === 0) {
+      pm.innerHTML = 'همه بج‌های مسیر را گرفتی. <b>فقط یک قدم</b> تا مرحله نهایی مانده است.';
+    } else if (regularEarned === 0) {
+      pm.textContent = 'مسیر آماده است و اولین بج منتظر توست.';
+    } else {
+      pm.innerHTML = '<b>' + regularEarned + ' از ۶</b> مرحله را گذرانده‌ای. ' + left + ' بج تا مرحله نهایی مانده است.';
+    }
+    prog.appendChild(pm);
+    app.appendChild(prog);
+
+    function makeCard(id, extraClass, idx) {
+      var d = def(id), s = stateOf(id);
+      var el = document.createElement(s === 'earned' ? 'button' : 'div');
+      el.className = 'badge ' + s + (extraClass ? ' ' + extraClass : '');
+      el.style.setProperty('--i', idx || 0);
+
+      var art = document.createElement('div');
+      art.className = 'art';
+      art.innerHTML = s === 'earned' ? (d.svg || STAR) : LOCK;
+
+      var t = document.createElement('div');
+      t.className = 't';
+      t.textContent = s === 'earned' ? (d.title || '') : '؟؟؟';
+
+      var sub = document.createElement('div');
+      sub.className = 's';
+      sub.textContent = s === 'locked' ? 'قفل' : (s === 'pending' ? 'در انتظار توست' : 'کسب شده');
+
+      el.appendChild(art); el.appendChild(t); el.appendChild(sub);
+      if (s === 'earned') el.addEventListener('click', function () { openModal(d); });
+      return el;
+    }
+
+    function grid(ids, offset) {
+      var g = document.createElement('div');
+      g.className = 'grid';
+      ids.forEach(function (id, i) { g.appendChild(makeCard(id, '', i + (offset || 0))); });
+      return g;
+    }
+    function heading(text) {
+      var h = document.createElement('h2');
+      h.textContent = text;
+      return h;
+    }
+
+    app.appendChild(heading('بج‌ها'));
+    app.appendChild(grid(REGULAR, 0));
+
+    if (EXTRA.length) {
+      app.appendChild(heading('بج‌های ویژه'));
+      app.appendChild(grid(EXTRA, 6));
+    }
+
+    var fw = document.createElement('div');
+    fw.className = 'final-wrap';
+    fw.appendChild(makeCard(FINAL, 'big', 7));
+    app.appendChild(fw);
+
+    var overlay = $('overlay');
+    function openModal(d) {
+      $('mIcon').innerHTML = d.svg || STAR;
+      $('mTitle').textContent = d.title || '';
+      var p = $('mDesc');
+      p.textContent = '';
+      (d.desc || '').split('{name}').forEach(function (part, i) {
+        if (i > 0) {
+          var w = document.createElement('span');
+          w.className = 'who';
+          w.textContent = student.name;
+          p.appendChild(w);
+        }
+        p.appendChild(document.createTextNode(part));
+      });
+      overlay.classList.add('open');
+    }
+    function closeModal() { overlay.classList.remove('open'); }
+    $('close').addEventListener('click', closeModal);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+  }
+
+  try {
+    main();
+  } catch (err) {
+    app.innerHTML = '';
+    var e = document.createElement('div');
+    e.className = 'err';
+    e.textContent = 'خطا: ' + err.message;
+    app.appendChild(e);
+  }
+})();
+</script>
+</body>
+</html>
