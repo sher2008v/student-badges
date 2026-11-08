@@ -29,6 +29,7 @@
   --text: #eef0ff;
   --muted: #7a7fa6;
   --ease: cubic-bezier(.22,.61,.36,1);
+  --mv: .55s; /* مدت حرکت مشترک کارت و شکل داخلی */
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
@@ -41,17 +42,18 @@ body {
   -webkit-font-smoothing: antialiased;
   position: relative;
   overflow-x: hidden;
+  display: flex; flex-direction: column;
 }
 
-/* سایه‌های نور ثابت در گوشه‌ها */
+/* سایه‌های نور ملایم در گوشه‌ها */
 .glow {
-  position: fixed; border-radius: 50%; filter: blur(90px);
-  pointer-events: none; z-index: 0; opacity: .6;
+  position: fixed; border-radius: 50%; filter: blur(110px);
+  pointer-events: none; z-index: 0; opacity: .32;
 }
-.glow.g1 { width: 62vmax; height: 62vmax; top: -28vmax; right: -18vmax; background: rgba(255,43,214,.42); }
-.glow.g2 { width: 58vmax; height: 58vmax; bottom: -26vmax; left: -18vmax; background: rgba(46,242,255,.36); }
+.glow.g1 { width: 50vmax; height: 50vmax; top: -24vmax; right: -16vmax; background: rgba(255,43,214,.5); }
+.glow.g2 { width: 46vmax; height: 46vmax; bottom: -22vmax; left: -16vmax; background: rgba(46,242,255,.45); }
 
-.wrap { max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
+.wrap { max-width: 780px; width: 100%; margin: 0 auto; position: relative; z-index: 1; }
 
 /* هدر */
 header { text-align: center; animation: rise .8s both; }
@@ -88,40 +90,43 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 @media (max-width: 620px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
 
-/* کارت پایه: حرکت نرم و هماهنگ */
+/* کارت پایه */
 .badge {
   position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px;
   width: 100%; padding: 24px 12px 18px; border-radius: 22px;
   background: var(--glass); border: 1px solid var(--line);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   color: inherit; font: inherit; text-align: center; overflow: hidden;
-  transition: transform .7s var(--ease), box-shadow .7s var(--ease), border-color .7s var(--ease), opacity .7s var(--ease);
-  animation: rise .7s both; animation-delay: calc(.3s + var(--i, 0) * .09s);
+  transition: transform var(--mv) var(--ease), box-shadow var(--mv) var(--ease), border-color var(--mv) var(--ease), opacity var(--mv) var(--ease);
+  /* backwards: پس از پایان ورود، حرکت موس آزاد می‌ماند */
+  animation: rise .7s backwards; animation-delay: calc(.3s + var(--i, 0) * .09s);
 }
 .badge .art {
   width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center;
   color: var(--neon); background: rgba(255,255,255,.03);
-  transition: transform .7s var(--ease), box-shadow .7s var(--ease), border-color .7s var(--ease);
+  transition: transform var(--mv) var(--ease), box-shadow var(--mv) var(--ease), border-color var(--mv) var(--ease);
 }
 .badge .art svg { width: 100%; height: 100%; }
-.badge .t { font-weight: 700; font-size: .98rem; transition: text-shadow .7s var(--ease), color .7s var(--ease); }
-.badge .s { font-size: .76rem; color: var(--muted); transition: color .7s var(--ease); }
+.badge .t { font-weight: 700; font-size: .98rem; transition: text-shadow var(--mv) var(--ease), color var(--mv) var(--ease); }
+.badge .s { font-size: .76rem; color: var(--muted); transition: color var(--mv) var(--ease); }
 
 /* قفل */
 .locked { opacity: .6; }
-.locked:hover { transform: translateY(-1px); opacity: .68; }
+.locked:hover { transform: translateY(-2px); opacity: .7; }
+.locked:hover .art { transform: scale(1.03); }
 .locked .art { border: 1.5px dashed rgba(255,255,255,.2); }
 .lock-q { font-size: 2.2rem; font-weight: 200; color: rgba(255,255,255,.28); }
 
-/* فعال ولی کسب‌نشده: فقط خط‌چین متفاوت و متن انتظار */
+/* فعال ولی کسب‌نشده */
 .pending .art { border: 1.5px dashed rgba(46,242,255,.4); animation: breathe 3.2s ease-in-out infinite; }
 .pending .s { color: var(--neon); }
-.pending:hover { transform: translateY(-2px); }
+.pending:hover { transform: translateY(-3px); }
+.pending:hover .art { transform: scale(1.04); }
 
 /* کسب‌شده */
 .earned { cursor: pointer; border-color: transparent; }
-.earned:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(46,242,255,.14); }
-.earned:hover .art { transform: scale(1.04); }
+.earned:hover { transform: translateY(-5px); box-shadow: 0 16px 36px rgba(46,242,255,.13); }
+.earned:hover .art { transform: scale(1.06); }
 .earned::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
   background: conic-gradient(from var(--a), rgba(46,242,255,.8), rgba(255,43,214,.6), rgba(46,242,255,.8));
@@ -133,6 +138,7 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
   box-shadow: 0 0 14px rgba(46,242,255,.22), inset 0 0 10px rgba(255,43,214,.15);
   animation: pulse 3s ease-in-out infinite;
 }
+.earned:hover .art { box-shadow: 0 0 20px rgba(46,242,255,.3), inset 0 0 14px rgba(255,43,214,.2); }
 .earned .t { color: #fff; text-shadow: 0 0 8px rgba(46,242,255,.45); }
 .earned .s { color: rgba(46,242,255,.85); }
 
@@ -148,34 +154,67 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 .badge.big .t { font-size: 1.2rem; }
 .badge.big .lock-q { font-size: 3.4rem; color: rgba(255,209,102,.4); }
 .badge.big.locked { opacity: .85; }
-.badge.big.locked:hover { transform: translateY(-1px); border-color: rgba(255,209,102,.45); }
+.badge.big.locked:hover { transform: translateY(-2px); border-color: rgba(255,209,102,.45); }
 .badge.big.locked .art { border: 1.5px dashed rgba(255,209,102,.4); animation: goldbreathe 4s ease-in-out infinite; }
 .badge.big.pending .art { border: 1.5px dashed rgba(255,209,102,.5); animation: goldbreathe 4s ease-in-out infinite; }
 .badge.big.pending .s { color: var(--gold); }
+.badge.big.pending:hover { transform: translateY(-3px); }
 .badge.big.earned::before { background: conic-gradient(from var(--a), rgba(255,209,102,.8), rgba(255,159,67,.5), rgba(255,209,102,.8)); animation-duration: 5s; }
-.badge.big.earned:hover { box-shadow: 0 16px 40px rgba(255,209,102,.16); }
+.badge.big.earned:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(255,209,102,.15); }
 .badge.big.earned .art { box-shadow: 0 0 26px rgba(255,209,102,.3), inset 0 0 16px rgba(255,159,67,.18); }
+.badge.big.earned:hover .art { transform: scale(1.05); }
 .badge.big.earned .t { text-shadow: 0 0 10px rgba(255,209,102,.5); }
 .badge.big.earned .s { color: var(--gold); }
 
 /* پاپ‌آپ */
-.overlay { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(3,3,8,.65); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); z-index: 10; }
+.overlay {
+  position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 20px;
+  background: rgba(3,3,8,.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 10;
+}
 .overlay.open { display: flex; }
 .modal {
-  position: relative; max-width: 400px; width: 100%; padding: 32px 24px; border-radius: 24px; text-align: center;
-  background: rgba(20,20,34,.78); border: 1px solid rgba(46,242,255,.3); box-shadow: 0 0 36px rgba(46,242,255,.14);
-  backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); animation: pop .3s ease-out;
+  position: relative; max-width: 380px; width: 100%; padding: 36px 26px 30px; border-radius: 26px; text-align: center;
+  background: linear-gradient(170deg, rgba(30,30,52,.92), rgba(12,12,22,.94));
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  box-shadow: 0 0 0 1px rgba(46,242,255,.18), 0 24px 60px rgba(0,0,0,.5), 0 0 40px rgba(46,242,255,.08);
+  animation: pop .35s var(--ease);
+  overflow: hidden;
 }
-.modal #mIcon { width: 100px; height: 100px; margin: 0 auto; color: var(--neon); }
+.modal::before {
+  content: ""; position: absolute; top: 0; left: 18%; right: 18%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--neon), var(--neon2), transparent);
+  opacity: .8;
+}
+.modal #mIcon {
+  width: 104px; height: 104px; margin: 0 auto; padding: 14px; border-radius: 50%;
+  color: var(--neon);
+  background: radial-gradient(circle, rgba(46,242,255,.12), transparent 70%);
+  box-shadow: 0 0 24px rgba(46,242,255,.18);
+}
 .modal #mIcon svg { width: 100%; height: 100%; }
-.modal h3 { margin: 14px 0 10px; color: #fff; font-size: 1.25rem; }
-.modal p { line-height: 2; margin: 0; color: #d6d9f2; }
+.modal h3 { margin: 18px 0 6px; color: #fff; font-size: 1.3rem; font-weight: 800; }
+.modal h3::after {
+  content: ""; display: block; width: 44px; height: 2px; margin: 10px auto 0; border-radius: 2px;
+  background: linear-gradient(90deg, var(--neon), var(--neon2));
+}
+.modal p {
+  line-height: 2.1; margin: 16px 0 0; color: #d6d9f2; font-size: .93rem;
+  padding: 14px 16px; border-radius: 16px; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.05);
+}
 .modal .who { color: var(--neon); font-family: 'Dooran', 'Vazirmatn', Tahoma, sans-serif; font-size: 1.2em; }
-.close { position: absolute; top: 8px; left: 14px; background: none; border: 0; color: var(--muted); font-size: 1.6rem; cursor: pointer; }
+.close {
+  position: absolute; top: 12px; left: 12px; width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+  color: var(--muted); font-size: 1.2rem; line-height: 1; cursor: pointer;
+  display: grid; place-items: center; transition: background .3s, color .3s;
+}
+.close:hover { background: rgba(255,255,255,.1); color: #fff; }
+@keyframes pop { from { transform: scale(.94); opacity: 0; } }
 
-/* فوتر */
+/* فوتر: پایین‌تر و متعادل */
 footer {
-  position: relative; z-index: 1; max-width: 780px; margin: 64px auto 0; padding: 22px 0 32px;
+  position: relative; z-index: 1; max-width: 780px; width: 100%; margin: auto auto 0; padding: 56px 0 16px;
   text-align: center; font-size: .92rem; color: #9ea4cf; font-weight: 500; letter-spacing: .4px; line-height: 1.9;
 }
 footer::before {
@@ -190,7 +229,6 @@ footer::before {
 @keyframes breathe { 50% { border-color: rgba(46,242,255,.8); } }
 @keyframes goldbreathe { 50% { box-shadow: 0 0 30px rgba(255,209,102,.2); border-color: rgba(255,209,102,.7); } }
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } }
-@keyframes pop { from { transform: scale(.92); opacity: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -209,7 +247,7 @@ footer::before {
   <div id="app"></div>
 </div>
 
-<footer>© ارائه‌شده توسط منتور شروین کرمی</footer>
+<footer id="footer">© ارائه‌شده توسط منتور شروین کرمی</footer>
 
 <div class="overlay" id="overlay">
   <div class="modal" role="dialog" aria-modal="true">
@@ -239,7 +277,7 @@ footer::before {
       msg.className = 'pmsg';
       msg.textContent = 'این لینک معتبر نیست. لطفاً لینک شخصی خود را از معلم بگیرید.';
       app.appendChild(msg);
-      document.querySelector('footer').style.display = 'none';
+      $('footer').style.display = 'none';
       return;
     }
 
@@ -265,7 +303,6 @@ footer::before {
       return (student.earned || []).indexOf(id) !== -1 ? 'earned' : 'pending';
     }
 
-    // نقاط دریافت بج (بدون ترتیب و بدون مفهوم مرحله)
     var STD = REGULAR.concat([FINAL]);
     var got = STD.filter(function (id) { return stateOf(id) === 'earned'; }).length;
 
