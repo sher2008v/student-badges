@@ -1,11 +1,12 @@
 /*
 راهنمای سریع:
-- active: true        یعنی این بج فعال است و دانش‌آموزان می‌توانند آن را بگیرند.
-- earned: ['b1']      یعنی این دانش‌آموز بج b1 را گرفته (فقط وقتی active باشد رنگی می‌شود).
+- active: true        بج برای همه نمایش داده می‌شود (کسب‌نشده‌ها «در انتظار» هستند).
+- earned: ['b1']      این دانش‌آموز بج b1 را گرفته.
 - overrides           جایگزین کردن بج یک نفر. مثال:
                       overrides: { b3: { title: 'عنوان جدید', desc: '...', active: true } }
 - extra               بج‌های ویژه یک نفر. ابتدا باید در BADGE_CATALOG تعریف شوند. مثال: extra: ['x1']
 - {name} در توضیحات   با نام کامل دانش‌آموز جایگزین می‌شود.
+- کلید هر دانش‌آموز (مثلاً x7k2p9qa) همان چیزی است که در لینک ?student= می‌آید.
 */
 
 const BADGE_CATALOG = {
@@ -19,24 +20,24 @@ const BADGE_CATALOG = {
 };
 
 const STUDENTS = {
-  s01: { name: "آرین فروزان فرد",        earned: [] },
-  s02: { name: "ابوالفضل خدری",           earned: [] },
-  s03: { name: "ارشیا امیری",             earned: [] },
-  s04: { name: "امیررضا جلالی اصفهان",    earned: [] },
-  s05: { name: "امیررضا ورناصری",         earned: [] },
-  s06: { name: "امیرعلی پوریافر",         earned: [] },
-  s07: { name: "امیرعلی شکیبا",           earned: [] },
-  s08: { name: "آراد نظرزاده",            earned: [] },
-  s09: { name: "آروین امیری",             earned: [] },
-  s10: { name: "بهتاش رحیمی نیا",         earned: [] },
-  s11: { name: "بهراد ناصری کریموند",     earned: [] },
-  s12: { name: "سامیار حاجتی",            earned: [] },
-  s13: { name: "سهیل عساکره",             earned: [] },
-  s14: { name: "سورنا اسکندری",           earned: [] },
-  s15: { name: "عباس زهریان نژاد",        earned: [] },
-  s16: { name: "علی ممبینی",              earned: [] },
-  s17: { name: "علیرضا سطوت",             earned: [] },
-  s18: { name: "علیرضا کاظمی",            earned: [] },
-  s19: { name: "محمدطاها خدادادی",        earned: [] },
-  s20: { name: "مهراد بلادی موسوی",       earned: [] }
+  "x7k2p9qa": { name: "آرین فروزانی فرد",        earned: ['b1'] },
+  "m4t8ryn3": { name: "ابوالفضل خدری",           earned: [] },
+  "b9c2hw6e": { name: "ارشیا امیری",             earned: [] },
+  "q5v1zd8s": { name: "امیررضا جلالی اصفهان",    earned: [] },
+  "k2n7fe4j": { name: "امیررضا ورناصری",         earned: [] },
+  "h8s3ug1r": { name: "امیرعلی پوریافر",         earned: [] },
+  "w6p9ta2m": { name: "امیرعلی شکیبا",           earned: [] },
+  "d3j5xc7b": { name: "آراد نظرزاده",            earned: [] },
+  "r1g8lq4n": { name: "آروین امیری",             earned: [] },
+  "t7e2ym9k": { name: "بهتاش رحیمی نیا",         earned: [] },
+  "z4u6oi3f": { name: "بهراد ناصری کریموند",     earned: [] },
+  "c8f1bn5w": { name: "سامیار حاجتی",            earned: [] },
+  "y2m9kd7h": { name: "سهیل عساکره",             earned: [] },
+  "e5a3rv8p": { name: "سورنا اسکندری",           earned: [] },
+  "u9l6sj2t": { name: "عباس زهریان نژاد",        earned: [] },
+  "g3q7hx4c": { name: "علی ممبینی",              earned: [] },
+  "p6w2ze9d": { name: "علیرضا سطوت",             earned: [] },
+  "n8b4ka1v": { name: "علیرضا کاظمی",            earned: [] },
+  "f1x5tm7y": { name: "محمدطاها خدادادی",        earned: [] },
+  "j7r9cw3g": { name: "مهراد بلادی موسوی",       earned: [] }
 };
