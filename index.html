@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#05050b">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="robots" content="noindex, nofollow">
 <title>افتخارات</title>
 <style>
@@ -26,37 +26,33 @@
   --neon: #2ef2ff;
   --neon2: #ff2bd6;
   --gold: #ffd166;
-  --glass: rgba(255,255,255,.045);
   --line: rgba(255,255,255,.09);
   --text: #eef0ff;
   --muted: #7a7fa6;
   --ease: cubic-bezier(.22,.61,.36,1);
   --mv: .55s;
 }
+
 * { box-sizing: border-box; }
-html { background: #05050b; min-height: 100%; }
+html { background: #05050b; }
 html, body { margin: 0; }
+
+/* پس‌زمینه: سایه‌های گوشه با گرادیان ساده، بدون blur و بدون عنصر اضافه */
 body {
+  min-height: 100vh;
   min-height: 100dvh;
   font-family: 'Vazirmatn', Tahoma, sans-serif;
   color: var(--text);
-  background: #05050b;
+  background:
+    radial-gradient(ellipse 50% 40% at 100% 0%, rgba(255,43,214,.13), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 0% 100%, rgba(46,242,255,.11), transparent 70%),
+    #05050b;
   padding: 44px 16px 0;
   -webkit-font-smoothing: antialiased;
-  position: relative;
-  overflow-x: hidden;
   display: flex; flex-direction: column;
 }
 
-/* سایه‌های نور ملایم در گوشه‌ها، داخل کانتینر محدود */
-.glows { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
-.glow {
-  position: absolute; border-radius: 50%; filter: blur(110px); opacity: .32;
-}
-.glow.g1 { width: 50vmax; height: 50vmax; top: -24vmax; right: -16vmax; background: rgba(255,43,214,.5); }
-.glow.g2 { width: 46vmax; height: 46vmax; bottom: -22vmax; left: -16vmax; background: rgba(46,242,255,.45); }
-
-.wrap { max-width: 780px; width: 100%; margin: 0 auto; position: relative; z-index: 1; }
+.wrap { max-width: 780px; width: 100%; margin: 0 auto; }
 
 /* هدر */
 header { text-align: center; animation: rise .8s both; }
@@ -69,18 +65,13 @@ h1 .nm {
   line-height: 1.6;
   background: linear-gradient(90deg, var(--neon), #b69cff 50%, var(--neon2));
   -webkit-background-clip: text; background-clip: text; color: transparent;
-  filter: drop-shadow(0 0 18px rgba(46,242,255,.25));
 }
 .eyebrow { margin: 6px 0 0; font-size: 1rem; font-weight: 300; color: var(--muted); letter-spacing: 1px; }
 
 /* نقاط دریافت بج */
 .progress { margin: 30px auto 6px; max-width: 520px; text-align: center; animation: rise .8s .15s both; }
 .dots { display: flex; justify-content: center; align-items: center; gap: 12px; }
-.dot {
-  width: 12px; height: 12px; border-radius: 50%;
-  background: rgba(255,255,255,.1);
-  transition: background .7s var(--ease), box-shadow .7s var(--ease);
-}
+.dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,.1); }
 .dot.on { background: linear-gradient(135deg, var(--neon), var(--neon2)); box-shadow: 0 0 10px rgba(46,242,255,.45); }
 .dot.big { width: 18px; height: 18px; }
 .dot.big.on { background: linear-gradient(135deg, #ffd166, #ff9f43); box-shadow: 0 0 12px rgba(255,209,102,.55); }
@@ -93,12 +84,14 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 @media (max-width: 620px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
 
-/* کارت پایه */
+/* کارت: شیشه‌ای با گرادیان و هایلایت (بدون backdrop-filter) */
 .badge {
   position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px;
   width: 100%; padding: 24px 12px 18px; border-radius: 22px;
-  background: var(--glass); border: 1px solid var(--line);
-  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.085), rgba(255,255,255,.02)) padding-box;
+  border: 1px solid var(--line);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07);
   color: inherit; font: inherit; text-align: center; overflow: hidden;
   transition: transform var(--mv) var(--ease), box-shadow var(--mv) var(--ease), border-color var(--mv) var(--ease), opacity var(--mv) var(--ease);
   animation: rise .7s backwards; animation-delay: calc(.3s + var(--i, 0) * .09s);
@@ -127,7 +120,7 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 
 /* کسب‌شده */
 .earned { cursor: pointer; border-color: transparent; }
-.earned:hover { transform: translateY(-5px); box-shadow: 0 16px 36px rgba(46,242,255,.13); }
+.earned:hover { transform: translateY(-5px); box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 16px 36px rgba(46,242,255,.13); }
 .earned:hover .art { transform: scale(1.06); }
 .earned::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
@@ -148,9 +141,9 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 .final-wrap { margin-top: 28px; display: flex; justify-content: center; }
 .badge.big {
   max-width: 420px; padding: 40px 24px 30px; gap: 14px; border-radius: 28px;
-  background: linear-gradient(160deg, rgba(255,209,102,.08), rgba(255,255,255,.03) 45%, rgba(255,43,214,.05));
+  background: linear-gradient(160deg, rgba(255,209,102,.10), rgba(255,255,255,.03) 45%, rgba(255,43,214,.06));
   border: 1px solid rgba(255,209,102,.3);
-  box-shadow: 0 0 40px rgba(255,209,102,.07);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 0 40px rgba(255,209,102,.07);
 }
 .badge.big .art { width: 170px; height: 170px; color: var(--gold); }
 .badge.big .t { font-size: 1.2rem; }
@@ -162,24 +155,23 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 .badge.big.pending .s { color: var(--gold); }
 .badge.big.pending:hover { transform: translateY(-3px); }
 .badge.big.earned::before { background: conic-gradient(from var(--a), rgba(255,209,102,.8), rgba(255,159,67,.5), rgba(255,209,102,.8)); animation-duration: 5s; }
-.badge.big.earned:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(255,209,102,.15); }
+.badge.big.earned:hover { transform: translateY(-5px); box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 18px 40px rgba(255,209,102,.15); }
 .badge.big.earned .art { box-shadow: 0 0 26px rgba(255,209,102,.3), inset 0 0 16px rgba(255,159,67,.18); }
 .badge.big.earned:hover .art { transform: scale(1.05); }
 .badge.big.earned .t { text-shadow: 0 0 10px rgba(255,209,102,.5); }
 .badge.big.earned .s { color: var(--gold); }
 
-/* پاپ‌آپ */
+/* پاپ‌آپ: شیشه‌ای با گرادیان (بدون backdrop-filter) */
 .overlay {
   position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 20px;
-  background: rgba(3,3,8,.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 10;
+  background: rgba(3,3,8,.8); z-index: 10;
 }
 .overlay.open { display: flex; }
 .modal {
   position: relative; max-width: 380px; width: 100%; padding: 36px 26px 30px; border-radius: 26px; text-align: center;
-  background: linear-gradient(170deg, rgba(30,30,52,.92), rgba(12,12,22,.94));
-  border: 1px solid transparent;
-  background-clip: padding-box;
-  box-shadow: 0 0 0 1px rgba(46,242,255,.18), 0 24px 60px rgba(0,0,0,.5), 0 0 40px rgba(46,242,255,.08);
+  background: linear-gradient(170deg, rgba(40,40,70,.55), rgba(12,12,22,.92) 60%);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 0 0 1px rgba(46,242,255,.14), 0 24px 60px rgba(0,0,0,.5);
   animation: pop .35s var(--ease);
   overflow: hidden;
 }
@@ -202,7 +194,7 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 }
 .modal p {
   line-height: 2.1; margin: 16px 0 0; color: #d6d9f2; font-size: .93rem;
-  padding: 14px 16px; border-radius: 16px; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.05);
+  padding: 14px 16px; border-radius: 16px; background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.06);
 }
 .modal .who { color: var(--neon); font-family: 'Dooran', 'Vazirmatn', Tahoma, sans-serif; font-size: 1.2em; }
 .close {
@@ -216,7 +208,7 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 
 /* فوتر */
 footer {
-  position: relative; z-index: 1; max-width: 780px; width: 100%; margin: auto auto 0; padding: 56px 0 16px;
+  width: 100%; max-width: 780px; margin: auto auto 0; padding: 56px 0 16px;
   text-align: center; font-size: .92rem; color: #9ea4cf; font-weight: 500; letter-spacing: .4px; line-height: 1.9;
 }
 footer::before {
@@ -238,10 +230,6 @@ footer::before {
 </style>
 </head>
 <body>
-<div class="glows">
-  <div class="glow g1"></div>
-  <div class="glow g2"></div>
-</div>
 
 <div class="wrap">
   <header>
