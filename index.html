@@ -28,7 +28,7 @@
   --line: rgba(255,255,255,.09);
   --text: #eef0ff;
   --muted: #7a7fa6;
-  --ease: cubic-bezier(.25,.8,.25,1);
+  --ease: cubic-bezier(.22,.61,.36,1);
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
@@ -36,14 +36,22 @@ body {
   min-height: 100vh;
   font-family: 'Vazirmatn', Tahoma, sans-serif;
   color: var(--text);
-  background:
-    radial-gradient(900px 500px at 15% -10%, rgba(255,43,214,.14), transparent 60%),
-    radial-gradient(800px 500px at 110% 110%, rgba(46,242,255,.12), transparent 60%),
-    var(--bg);
+  background: var(--bg);
   padding: 44px 16px 0;
   -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
 }
-.wrap { max-width: 780px; margin: 0 auto; }
+
+/* سایه‌های نور ثابت در گوشه‌ها */
+.glow {
+  position: fixed; border-radius: 50%; filter: blur(90px);
+  pointer-events: none; z-index: 0; opacity: .6;
+}
+.glow.g1 { width: 62vmax; height: 62vmax; top: -28vmax; right: -18vmax; background: rgba(255,43,214,.42); }
+.glow.g2 { width: 58vmax; height: 58vmax; bottom: -26vmax; left: -18vmax; background: rgba(46,242,255,.36); }
+
+.wrap { max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
 
 /* هدر */
 header { text-align: center; animation: rise .8s both; }
@@ -60,14 +68,18 @@ h1 .nm {
 }
 .eyebrow { margin: 6px 0 0; font-size: 1rem; font-weight: 300; color: var(--muted); letter-spacing: 1px; }
 
-/* پیشرفت */
-.progress { margin: 30px auto 6px; max-width: 520px; animation: rise .8s .15s both; }
-.steps { display: flex; gap: 6px; direction: rtl; }
-.step { flex: 1; height: 6px; border-radius: 6px; background: rgba(255,255,255,.08); transition: background .4s; }
-.step.on { background: linear-gradient(90deg, var(--neon), var(--neon2)); box-shadow: 0 0 10px rgba(46,242,255,.5); }
-.step.fin { flex: 1.6; }
-.step.fin.on { background: linear-gradient(90deg, #ffd166, #ff9f43); box-shadow: 0 0 12px rgba(255,209,102,.6); }
-.pmsg { text-align: center; margin: 14px 0 0; font-size: .95rem; color: #c9cdee; line-height: 1.9; }
+/* نقاط دریافت بج */
+.progress { margin: 30px auto 6px; max-width: 520px; text-align: center; animation: rise .8s .15s both; }
+.dots { display: flex; justify-content: center; align-items: center; gap: 12px; }
+.dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: rgba(255,255,255,.1);
+  transition: background .7s var(--ease), box-shadow .7s var(--ease);
+}
+.dot.on { background: linear-gradient(135deg, var(--neon), var(--neon2)); box-shadow: 0 0 10px rgba(46,242,255,.45); }
+.dot.big { width: 18px; height: 18px; }
+.dot.big.on { background: linear-gradient(135deg, #ffd166, #ff9f43); box-shadow: 0 0 12px rgba(255,209,102,.55); }
+.pmsg { text-align: center; margin: 16px 0 0; font-size: .95rem; color: #c9cdee; line-height: 1.9; }
 .pmsg b { color: #fff; font-weight: 700; }
 
 h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 400; letter-spacing: 3px; margin: 44px 0 18px; animation: rise .8s .25s both; }
@@ -76,40 +88,39 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 @media (max-width: 620px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
 
-/* کارت پایه */
+/* کارت پایه: حرکت نرم و هماهنگ */
 .badge {
   position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px;
   width: 100%; padding: 24px 12px 18px; border-radius: 22px;
   background: var(--glass); border: 1px solid var(--line);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   color: inherit; font: inherit; text-align: center; overflow: hidden;
-  transition: transform .6s var(--ease), box-shadow .6s var(--ease), border-color .6s var(--ease), opacity .6s var(--ease);
+  transition: transform .7s var(--ease), box-shadow .7s var(--ease), border-color .7s var(--ease), opacity .7s var(--ease);
   animation: rise .7s both; animation-delay: calc(.3s + var(--i, 0) * .09s);
 }
 .badge .art {
   width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center;
   color: var(--neon); background: rgba(255,255,255,.03);
-  transition: transform .6s var(--ease), box-shadow .6s var(--ease);
+  transition: transform .7s var(--ease), box-shadow .7s var(--ease), border-color .7s var(--ease);
 }
 .badge .art svg { width: 100%; height: 100%; }
-.badge .t { font-weight: 700; font-size: .98rem; transition: text-shadow .6s var(--ease); }
-.badge .s { font-size: .76rem; color: var(--muted); transition: color .6s var(--ease); }
+.badge .t { font-weight: 700; font-size: .98rem; transition: text-shadow .7s var(--ease), color .7s var(--ease); }
+.badge .s { font-size: .76rem; color: var(--muted); transition: color .7s var(--ease); }
 
 /* قفل */
 .locked { opacity: .6; }
-.locked:hover { transform: translateY(-2px); opacity: .7; border-color: rgba(255,255,255,.14); }
+.locked:hover { transform: translateY(-1px); opacity: .68; }
 .locked .art { border: 1.5px dashed rgba(255,255,255,.2); }
 .lock-q { font-size: 2.2rem; font-weight: 200; color: rgba(255,255,255,.28); }
 
 /* فعال ولی کسب‌نشده: فقط خط‌چین متفاوت و متن انتظار */
 .pending .art { border: 1.5px dashed rgba(46,242,255,.4); animation: breathe 3.2s ease-in-out infinite; }
 .pending .s { color: var(--neon); }
-.pending:hover { transform: translateY(-3px); }
-.pending:hover .art { transform: scale(1.02); }
+.pending:hover { transform: translateY(-2px); }
 
-/* کسب‌شده: متعادل، کمتر بالا، نوار باریک‌تر و کمی تیره‌تر */
+/* کسب‌شده */
 .earned { cursor: pointer; border-color: transparent; }
-.earned:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(46,242,255,.10); }
+.earned:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(46,242,255,.14); }
 .earned:hover .art { transform: scale(1.04); }
 .earned::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
@@ -125,7 +136,7 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 .earned .t { color: #fff; text-shadow: 0 0 8px rgba(46,242,255,.45); }
 .earned .s { color: rgba(46,242,255,.85); }
 
-/* بج بزرگ آخر */
+/* بج ویژه (آخر) */
 .final-wrap { margin-top: 28px; display: flex; justify-content: center; }
 .badge.big {
   max-width: 420px; padding: 40px 24px 30px; gap: 14px; border-radius: 28px;
@@ -137,11 +148,12 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 .badge.big .t { font-size: 1.2rem; }
 .badge.big .lock-q { font-size: 3.4rem; color: rgba(255,209,102,.4); }
 .badge.big.locked { opacity: .85; }
-.badge.big.locked:hover { transform: translateY(-2px); border-color: rgba(255,209,102,.45); }
+.badge.big.locked:hover { transform: translateY(-1px); border-color: rgba(255,209,102,.45); }
 .badge.big.locked .art { border: 1.5px dashed rgba(255,209,102,.4); animation: goldbreathe 4s ease-in-out infinite; }
 .badge.big.pending .art { border: 1.5px dashed rgba(255,209,102,.5); animation: goldbreathe 4s ease-in-out infinite; }
+.badge.big.pending .s { color: var(--gold); }
 .badge.big.earned::before { background: conic-gradient(from var(--a), rgba(255,209,102,.8), rgba(255,159,67,.5), rgba(255,209,102,.8)); animation-duration: 5s; }
-.badge.big.earned:hover { box-shadow: 0 12px 34px rgba(255,209,102,.15); }
+.badge.big.earned:hover { box-shadow: 0 16px 40px rgba(255,209,102,.16); }
 .badge.big.earned .art { box-shadow: 0 0 26px rgba(255,209,102,.3), inset 0 0 16px rgba(255,159,67,.18); }
 .badge.big.earned .t { text-shadow: 0 0 10px rgba(255,209,102,.5); }
 .badge.big.earned .s { color: var(--gold); }
@@ -163,7 +175,7 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 
 /* فوتر */
 footer {
-  max-width: 780px; margin: 64px auto 0; padding: 22px 0 32px;
+  position: relative; z-index: 1; max-width: 780px; margin: 64px auto 0; padding: 22px 0 32px;
   text-align: center; font-size: .92rem; color: #9ea4cf; font-weight: 500; letter-spacing: .4px; line-height: 1.9;
 }
 footer::before {
@@ -186,6 +198,9 @@ footer::before {
 </style>
 </head>
 <body>
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+
 <div class="wrap">
   <header>
     <h1 id="title">افتخارات</h1>
@@ -210,6 +225,7 @@ footer::before {
 (function () {
   var $ = function (id) { return document.getElementById(id); };
   var app = $('app');
+  var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
 
   function main() {
     var params = new URLSearchParams(location.search);
@@ -249,34 +265,29 @@ footer::before {
       return (student.earned || []).indexOf(id) !== -1 ? 'earned' : 'pending';
     }
 
-    var regularEarned = REGULAR.filter(function (id) { return stateOf(id) === 'earned'; }).length;
-    var finalEarned = stateOf(FINAL) === 'earned';
+    // نقاط دریافت بج (بدون ترتیب و بدون مفهوم مرحله)
+    var STD = REGULAR.concat([FINAL]);
+    var got = STD.filter(function (id) { return stateOf(id) === 'earned'; }).length;
 
     var prog = document.createElement('div');
     prog.className = 'progress';
-    var steps = document.createElement('div');
-    steps.className = 'steps';
-    for (var i = 0; i < 6; i++) {
-      var st = document.createElement('div');
-      st.className = 'step' + (i < regularEarned ? ' on' : '');
-      steps.appendChild(st);
-    }
-    var fs = document.createElement('div');
-    fs.className = 'step fin' + (finalEarned ? ' on' : '');
-    steps.appendChild(fs);
-    prog.appendChild(steps);
+    var dots = document.createElement('div');
+    dots.className = 'dots';
+    STD.forEach(function (id) {
+      var d = document.createElement('div');
+      d.className = 'dot' + (id === FINAL ? ' big' : '') + (stateOf(id) === 'earned' ? ' on' : '');
+      dots.appendChild(d);
+    });
+    prog.appendChild(dots);
 
     var pm = document.createElement('p');
     pm.className = 'pmsg';
-    var left = 6 - regularEarned;
-    if (finalEarned) {
-      pm.textContent = 'مسیر را کامل کردی. این یعنی تعهد و پشتکار واقعی.';
-    } else if (left === 0) {
-      pm.innerHTML = 'همه بج‌های مسیر را گرفتی. <b>فقط یک قدم</b> تا مرحله نهایی مانده است.';
-    } else if (regularEarned === 0) {
-      pm.textContent = 'مسیر آماده است و اولین بج منتظر توست.';
+    if (got === 0) {
+      pm.textContent = 'اولین بج منتظر توست.';
+    } else if (got === STD.length) {
+      pm.textContent = 'همه بج‌ها را دریافت کردی. این افتخار کامل است.';
     } else {
-      pm.innerHTML = '<b>' + regularEarned + ' از ۶</b> مرحله را گذرانده‌ای. ' + left + ' بج تا مرحله نهایی مانده است.';
+      pm.innerHTML = '<b>' + fa(got) + ' از ' + fa(STD.length) + '</b> بج دریافت کرده‌ای. ' + fa(STD.length - got) + ' بج دیگر منتظر توست.';
     }
     prog.appendChild(pm);
     app.appendChild(prog);
@@ -297,7 +308,7 @@ footer::before {
 
       var sub = document.createElement('div');
       sub.className = 's';
-      sub.textContent = s === 'locked' ? 'قفل' : (s === 'pending' ? 'در انتظار توست' : 'کسب شده');
+      sub.textContent = s === 'locked' ? 'قفل' : (s === 'pending' ? 'در انتظار توست' : 'دریافت شده');
 
       el.appendChild(art); el.appendChild(t); el.appendChild(sub);
       if (s === 'earned') el.addEventListener('click', function () { openModal(d); });
