@@ -2,7 +2,8 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05050b">
 <meta name="robots" content="noindex, nofollow">
 <title>افتخارات</title>
 <style>
@@ -29,9 +30,10 @@
   --text: #eef0ff;
   --muted: #7a7fa6;
   --ease: cubic-bezier(.22,.61,.36,1);
-  --mv: .55s; /* مدت حرکت مشترک کارت و شکل داخلی */
+  --mv: .55s;
 }
 * { box-sizing: border-box; }
+html { background: #05050b; }
 html, body { margin: 0; }
 body {
   min-height: 100vh;
@@ -45,10 +47,10 @@ body {
   display: flex; flex-direction: column;
 }
 
-/* سایه‌های نور ملایم در گوشه‌ها */
+/* سایه‌های نور ملایم در گوشه‌ها، داخل کانتینر محدود */
+.glows { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 .glow {
-  position: fixed; border-radius: 50%; filter: blur(110px);
-  pointer-events: none; z-index: 0; opacity: .32;
+  position: absolute; border-radius: 50%; filter: blur(110px); opacity: .32;
 }
 .glow.g1 { width: 50vmax; height: 50vmax; top: -24vmax; right: -16vmax; background: rgba(255,43,214,.5); }
 .glow.g2 { width: 46vmax; height: 46vmax; bottom: -22vmax; left: -16vmax; background: rgba(46,242,255,.45); }
@@ -98,11 +100,10 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   color: inherit; font: inherit; text-align: center; overflow: hidden;
   transition: transform var(--mv) var(--ease), box-shadow var(--mv) var(--ease), border-color var(--mv) var(--ease), opacity var(--mv) var(--ease);
-  /* backwards: پس از پایان ورود، حرکت موس آزاد می‌ماند */
   animation: rise .7s backwards; animation-delay: calc(.3s + var(--i, 0) * .09s);
 }
 .badge .art {
-  width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center;
+  width: 112px; height: 112px; border-radius: 50%; display: grid; place-items: center;
   color: var(--neon); background: rgba(255,255,255,.03);
   transition: transform var(--mv) var(--ease), box-shadow var(--mv) var(--ease), border-color var(--mv) var(--ease);
 }
@@ -187,7 +188,7 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
   opacity: .8;
 }
 .modal #mIcon {
-  width: 104px; height: 104px; margin: 0 auto; padding: 14px; border-radius: 50%;
+  width: 150px; height: 150px; margin: 0 auto; padding: 8px; border-radius: 50%;
   color: var(--neon);
   background: radial-gradient(circle, rgba(46,242,255,.12), transparent 70%);
   box-shadow: 0 0 24px rgba(46,242,255,.18);
@@ -212,7 +213,7 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 .close:hover { background: rgba(255,255,255,.1); color: #fff; }
 @keyframes pop { from { transform: scale(.94); opacity: 0; } }
 
-/* فوتر: پایین‌تر و متعادل */
+/* فوتر */
 footer {
   position: relative; z-index: 1; max-width: 780px; width: 100%; margin: auto auto 0; padding: 56px 0 16px;
   text-align: center; font-size: .92rem; color: #9ea4cf; font-weight: 500; letter-spacing: .4px; line-height: 1.9;
@@ -236,8 +237,10 @@ footer::before {
 </style>
 </head>
 <body>
-<div class="glow g1"></div>
-<div class="glow g2"></div>
+<div class="glows">
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+</div>
 
 <div class="wrap">
   <header>
