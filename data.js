@@ -123,7 +123,7 @@ const BADGE_CATALOG = {
 };
 
 const STUDENTS = {
-  "x7k2p9qa": { name: "آرین فروزان فرد",        earned: ['b1'] },
+  "x7k2p9qa": { name: "آرین فروزان فرد",        earned: [] },
   "m4t8ryn3": { name: "ابوالفضل خدری",           earned: [] },
   "b9c2hw6e": { name: "ارشیا امیری",             earned: [] },
   "q5v1zd8s": { name: "امیررضا جلالی اصفهان",    earned: [] },
