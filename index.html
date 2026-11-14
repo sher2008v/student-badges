@@ -34,13 +34,12 @@
 }
 
 * { box-sizing: border-box; }
-html { background: #05050b; }
+html { background: #05050b; overflow-x: hidden; }
 html, body { margin: 0; }
 
 body {
   position: relative;
   min-height: 100vh;
-  min-height: 100dvh;
   font-family: 'Vazirmatn', Tahoma, sans-serif;
   color: var(--text);
   background: #05050b;
@@ -50,8 +49,11 @@ body {
   overflow-x: hidden;
 }
 
-/* سایه‌های گوشه: گرادیان بدون blur، هر کدام در ربع خودش حرکت می‌کند */
-.glows { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+/* سایه‌های گوشه: ثابت در پس‌زمینه و محدود به صفحه */
+.glows {
+  position: fixed; inset: 0; overflow: hidden;
+  pointer-events: none; z-index: 0;
+}
 .glow { position: absolute; width: 62vmax; height: 62vmax; border-radius: 50%; will-change: transform; }
 .glow.g1 {
   top: -30vmax; right: -20vmax;
@@ -66,7 +68,7 @@ body {
 @keyframes drift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(-6vw, 5vh) scale(1.05); } }
 @keyframes drift2 { from { transform: translate(0,0) scale(1); } to { transform: translate(6vw, -5vh) scale(1.05); } }
 
-/* هاله زیر موس (فقط دسکتاپ): بنفش‌تر، نرم، و کشیده در جهت حرکت */
+/* هاله زیر موس (فقط دسکتاپ) */
 .halo {
   position: fixed; left: 0; top: 0; width: 240px; height: 240px;
   pointer-events: none; z-index: 0; opacity: 0;
@@ -109,7 +111,7 @@ h1 .nm {
 .pmsg { text-align: center; margin: 16px 0 0; font-size: .95rem; color: #c9cdee; line-height: 1.9; }
 .pmsg b { color: #fff; font-weight: 700; }
 
-/* دکمه اشتراک‌گذاری: ملایم */
+/* دکمه اشتراک‌گذاری */
 .share {
   display: inline-flex; align-items: center; gap: 8px; margin: 18px auto 0;
   padding: 8px 16px; border-radius: 999px;
@@ -249,7 +251,7 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 .close:hover { background: rgba(255,255,255,.1); color: #fff; }
 @keyframes pop { from { transform: scale(.94); opacity: 0; } }
 
-/* نوار پیام (کپی/اشتراک) */
+/* نوار پیام */
 .toast {
   position: fixed; left: 50%; bottom: 22px; z-index: 20;
   width: calc(100% - 32px); max-width: 640px; height: 54px;
@@ -276,10 +278,6 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 footer {
   width: 100%; max-width: 780px; margin: auto auto 0; padding: 56px 0 16px; position: relative; z-index: 1;
   text-align: center; font-size: .92rem; color: #9ea4cf; font-weight: 500; letter-spacing: .4px; line-height: 1.9;
-}
-footer::before {
-  content: ""; display: block; width: 200px; height: 1px; margin: 0 auto 16px;
-  background: linear-gradient(90deg, transparent, rgba(46,242,255,.35), rgba(255,43,214,.35), transparent);
 }
 
 .err { text-align: center; color: #ff9aa8; font-size: .85rem; direction: ltr; white-space: pre-wrap; margin-top: 20px; }
@@ -331,7 +329,7 @@ footer::before {
   var app = $('app');
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
 
-  // هاله زیر موس (فقط دسکتاپ): نرم، بنفش‌محور، و کشیده در جهت حرکت
+  // هاله زیر موس (فقط دسکتاپ)
   try {
     if (window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
       var halo = document.createElement('div');
@@ -389,7 +387,6 @@ footer::before {
     }
   }
 
-  // در فایل محلی (file://) از API کلیپ‌بورد استفاده نمی‌شود، چون مرورگر اجازه می‌خواهد و گاهی تب را می‌بندد
   function copyText(text) {
     var canUseApi = location.protocol === 'https:' && window.isSecureContext && navigator.clipboard;
     if (canUseApi) {
@@ -469,7 +466,6 @@ footer::before {
     }
     prog.appendChild(pm);
 
-    // دکمه اشتراک‌گذاری
     var shareWrap = document.createElement('div');
     shareWrap.className = 'share-wrap';
     var btn = document.createElement('button');
