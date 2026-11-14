@@ -34,12 +34,13 @@
 }
 
 * { box-sizing: border-box; }
-html { background: #05050b; overflow-x: hidden; }
+html { background: #05050b; }
 html, body { margin: 0; }
 
 body {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
   font-family: 'Vazirmatn', Tahoma, sans-serif;
   color: var(--text);
   background: #05050b;
@@ -49,11 +50,8 @@ body {
   overflow-x: hidden;
 }
 
-/* سایه‌های گوشه: ثابت در پس‌زمینه و محدود به صفحه */
-.glows {
-  position: fixed; inset: 0; overflow: hidden;
-  pointer-events: none; z-index: 0;
-}
+/* سایه‌های گوشه: داخل بدنه‌ی صفحه، بدون blur و بدون fixed */
+.glows { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 .glow { position: absolute; width: 62vmax; height: 62vmax; border-radius: 50%; will-change: transform; }
 .glow.g1 {
   top: -30vmax; right: -20vmax;
@@ -251,21 +249,25 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 .close:hover { background: rgba(255,255,255,.1); color: #fff; }
 @keyframes pop { from { transform: scale(.94); opacity: 0; } }
 
-/* نوار پیام */
+/* نوار پیام: کاملاً پنهان تا لحظه‌ی نمایش (بدون هیچ خط یا سایه‌ی باقی‌مانده در پایین صفحه) */
 .toast {
   position: fixed; left: 50%; bottom: 22px; z-index: 20;
   width: calc(100% - 32px); max-width: 640px; height: 54px;
-  transform: translate(-50%, 140%);
+  transform: translate(-50%, 24px);
+  opacity: 0; visibility: hidden;
   display: flex; align-items: center; justify-content: center; padding: 0 22px;
   border-radius: 18px; overflow: hidden;
   background: linear-gradient(180deg, rgba(40,40,70,.7), rgba(12,12,24,.94));
   border: 1px solid rgba(46,242,255,.22);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 14px 40px rgba(0,0,0,.5);
   color: #eef0ff; font-size: .92rem; white-space: nowrap;
-  transition: transform .6s var(--ease);
+  transition: transform .6s var(--ease), opacity .6s var(--ease), visibility 0s linear .6s;
   pointer-events: none;
 }
-.toast.show { transform: translate(-50%, 0); }
+.toast.show {
+  transform: translate(-50%, 0); opacity: 1; visibility: visible;
+  transition: transform .6s var(--ease), opacity .6s var(--ease), visibility 0s;
+}
 .toast::after {
   content: ""; position: absolute; top: 0; bottom: 0; left: -40%; width: 40%;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
