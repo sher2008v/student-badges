@@ -37,22 +37,53 @@
 html { background: #05050b; }
 html, body { margin: 0; }
 
-/* پس‌زمینه: سایه‌های گوشه با گرادیان ساده، بدون blur و بدون عنصر اضافه */
 body {
+  position: relative;
   min-height: 100vh;
   min-height: 100dvh;
   font-family: 'Vazirmatn', Tahoma, sans-serif;
   color: var(--text);
-  background:
-    radial-gradient(ellipse 50% 40% at 100% 0%, rgba(255,43,214,.13), transparent 70%),
-    radial-gradient(ellipse 50% 40% at 0% 100%, rgba(46,242,255,.11), transparent 70%),
-    #05050b;
+  background: #05050b;
   padding: 44px 16px 0;
   -webkit-font-smoothing: antialiased;
   display: flex; flex-direction: column;
+  overflow-x: hidden;
 }
 
-.wrap { max-width: 780px; width: 100%; margin: 0 auto; }
+/* سایه‌های گوشه: گرادیان بدون blur، هر کدام در ربع خودش حرکت می‌کند */
+.glows { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.glow { position: absolute; width: 62vmax; height: 62vmax; border-radius: 50%; will-change: transform; }
+.glow.g1 {
+  top: -30vmax; right: -20vmax;
+  background: radial-gradient(closest-side, rgba(255,43,214,.13), transparent);
+  animation: drift1 26s ease-in-out infinite alternate;
+}
+.glow.g2 {
+  bottom: -30vmax; left: -20vmax;
+  background: radial-gradient(closest-side, rgba(46,242,255,.11), transparent);
+  animation: drift2 30s ease-in-out infinite alternate;
+}
+@keyframes drift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(-6vw, 5vh) scale(1.05); } }
+@keyframes drift2 { from { transform: translate(0,0) scale(1); } to { transform: translate(6vw, -5vh) scale(1.05); } }
+
+/* هاله زیر موس (فقط دسکتاپ): بنفش‌تر، نرم، و کشیده در جهت حرکت */
+.halo {
+  position: fixed; left: 0; top: 0; width: 240px; height: 240px;
+  pointer-events: none; z-index: 0; opacity: 0;
+  transition: opacity .8s var(--ease);
+  will-change: transform;
+}
+.halo.on { opacity: .6; }
+.halo-in {
+  position: absolute; inset: 0;
+  border-radius: 58% 42% 52% 48% / 46% 56% 44% 54%;
+  background: radial-gradient(closest-side, rgba(139,92,255,.24), rgba(92,80,255,.12) 55%, transparent 100%);
+  animation: morph 9s ease-in-out infinite alternate, blend 12s ease-in-out infinite alternate;
+}
+@keyframes morph { to { border-radius: 42% 58% 46% 54% / 58% 44% 56% 42%; } }
+@keyframes blend { from { filter: hue-rotate(-14deg); } to { filter: hue-rotate(22deg); } }
+
+.wrap { max-width: 780px; width: 100%; margin: 0 auto; position: relative; z-index: 1; }
 
 /* هدر */
 header { text-align: center; animation: rise .8s both; }
@@ -78,18 +109,30 @@ h1 .nm {
 .pmsg { text-align: center; margin: 16px 0 0; font-size: .95rem; color: #c9cdee; line-height: 1.9; }
 .pmsg b { color: #fff; font-weight: 700; }
 
+/* دکمه اشتراک‌گذاری: ملایم */
+.share {
+  display: inline-flex; align-items: center; gap: 8px; margin: 18px auto 0;
+  padding: 8px 16px; border-radius: 999px;
+  background: rgba(255,255,255,.03); border: 1px solid var(--line);
+  color: #aeb3d9; font: inherit; font-size: .8rem; letter-spacing: .3px; cursor: pointer;
+  transition: border-color .4s var(--ease), color .4s var(--ease), background .4s var(--ease), transform .4s var(--ease);
+}
+.share svg { width: 14px; height: 14px; }
+.share:hover { color: #fff; border-color: rgba(46,242,255,.35); background: rgba(46,242,255,.05); transform: translateY(-1px); }
+.share:active { transform: translateY(0) scale(.98); }
+.share-wrap { text-align: center; }
+
 h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 400; letter-spacing: 3px; margin: 44px 0 18px; animation: rise .8s .25s both; }
 
 /* شبکه */
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 @media (max-width: 620px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
 
-/* کارت: شیشه‌ای با گرادیان و هایلایت (بدون backdrop-filter) */
+/* کارت */
 .badge {
   position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px;
   width: 100%; padding: 24px 12px 18px; border-radius: 22px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.085), rgba(255,255,255,.02)) padding-box;
+  background: linear-gradient(180deg, rgba(255,255,255,.085), rgba(255,255,255,.02)) padding-box;
   border: 1px solid var(--line);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.07);
   color: inherit; font: inherit; text-align: center; overflow: hidden;
@@ -161,7 +204,7 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 .badge.big.earned .t { text-shadow: 0 0 10px rgba(255,209,102,.5); }
 .badge.big.earned .s { color: var(--gold); }
 
-/* پاپ‌آپ: شیشه‌ای با گرادیان (بدون backdrop-filter) */
+/* پاپ‌آپ */
 .overlay {
   position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 20px;
   background: rgba(3,3,8,.8); z-index: 10;
@@ -206,9 +249,32 @@ h2 { text-align: center; font-size: .85rem; color: var(--muted); font-weight: 40
 .close:hover { background: rgba(255,255,255,.1); color: #fff; }
 @keyframes pop { from { transform: scale(.94); opacity: 0; } }
 
-/* فوتر */
+/* نوار پیام (کپی/اشتراک) */
+.toast {
+  position: fixed; left: 50%; bottom: 22px; z-index: 20;
+  width: calc(100% - 32px); max-width: 640px; height: 54px;
+  transform: translate(-50%, 140%);
+  display: flex; align-items: center; justify-content: center; padding: 0 22px;
+  border-radius: 18px; overflow: hidden;
+  background: linear-gradient(180deg, rgba(40,40,70,.7), rgba(12,12,24,.94));
+  border: 1px solid rgba(46,242,255,.22);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 14px 40px rgba(0,0,0,.5);
+  color: #eef0ff; font-size: .92rem; white-space: nowrap;
+  transition: transform .6s var(--ease);
+  pointer-events: none;
+}
+.toast.show { transform: translate(-50%, 0); }
+.toast::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -40%; width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+  transform: skewX(-18deg);
+}
+.toast.show::after { animation: sheen 1.4s var(--ease) .15s 1; }
+@keyframes sheen { to { left: 120%; } }
+
+/* فوتر (نسخه‌ی موقت؛ فوتر اختصاصی خودتان را جایگزین کنید) */
 footer {
-  width: 100%; max-width: 780px; margin: auto auto 0; padding: 56px 0 16px;
+  width: 100%; max-width: 780px; margin: auto auto 0; padding: 56px 0 16px; position: relative; z-index: 1;
   text-align: center; font-size: .92rem; color: #9ea4cf; font-weight: 500; letter-spacing: .4px; line-height: 1.9;
 }
 footer::before {
@@ -226,10 +292,16 @@ footer::before {
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
+  .halo { display: none; }
 }
 </style>
 </head>
 <body>
+
+<div class="glows">
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+</div>
 
 <div class="wrap">
   <header>
@@ -250,12 +322,89 @@ footer::before {
   </div>
 </div>
 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script src="data.js?v=1"></script>
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
   var app = $('app');
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
+
+  // هاله زیر موس (فقط دسکتاپ): نرم، بنفش‌محور، و کشیده در جهت حرکت
+  try {
+    if (window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      var halo = document.createElement('div');
+      halo.className = 'halo';
+      halo.innerHTML = '<div class="halo-in"></div>';
+      document.body.appendChild(halo);
+
+      var tx = 0, ty = 0, cx = 0, cy = 0, angle = 0, sStretch = 1, started = false;
+      window.addEventListener('mousemove', function (e) {
+        tx = e.clientX; ty = e.clientY;
+        if (!started) { cx = tx; cy = ty; started = true; }
+        halo.classList.add('on');
+      }, { passive: true });
+      document.addEventListener('mouseleave', function () { halo.classList.remove('on'); });
+
+      (function loop() {
+        var nx = cx + (tx - cx) * 0.14;
+        var ny = cy + (ty - cy) * 0.14;
+        var vx = nx - cx, vy = ny - cy;
+        var speed = Math.sqrt(vx * vx + vy * vy);
+        if (speed > 0.3) angle = Math.atan2(vy, vx) * 180 / Math.PI;
+        var target = 1 + Math.min(speed * 0.035, 0.7);
+        sStretch += (target - sStretch) * 0.1;
+        cx = nx; cy = ny;
+        halo.style.transform = 'translate3d(' + cx + 'px,' + cy + 'px,0) translate(-50%,-50%) rotate(' + angle + 'deg) scale(' + sStretch + ',' + (1 / sStretch) + ')';
+        requestAnimationFrame(loop);
+      })();
+    }
+  } catch (e) { /* هاله اختیاری است */ }
+
+  var toast = $('toast');
+  var toastTimer;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.remove('show');
+    void toast.offsetWidth;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2800);
+  }
+
+  function fallbackCopy(text) {
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed'; ta.style.top = '0'; ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return !!ok;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // در فایل محلی (file://) از API کلیپ‌بورد استفاده نمی‌شود، چون مرورگر اجازه می‌خواهد و گاهی تب را می‌بندد
+  function copyText(text) {
+    var canUseApi = location.protocol === 'https:' && window.isSecureContext && navigator.clipboard;
+    if (canUseApi) {
+      try {
+        return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return fallbackCopy(text); });
+      } catch (e) { /* ادامه با روش جایگزین */ }
+    }
+    return Promise.resolve(fallbackCopy(text));
+  }
+
+  function notifyCopied(url) {
+    copyText(url).then(function (ok) {
+      showToast(ok ? 'لینک افتخارات کپی شد' : 'کپی نشد؛ لینک را از نوار آدرس بردار');
+    });
+  }
 
   function main() {
     var params = new URLSearchParams(location.search);
@@ -319,6 +468,29 @@ footer::before {
       pm.innerHTML = '<b>' + fa(got) + ' از ' + fa(STD.length) + '</b> بج دریافت کرده‌ای. ' + fa(STD.length - got) + ' بج دیگر منتظر توست.';
     }
     prog.appendChild(pm);
+
+    // دکمه اشتراک‌گذاری
+    var shareWrap = document.createElement('div');
+    shareWrap.className = 'share-wrap';
+    var btn = document.createElement('button');
+    btn.className = 'share';
+    btn.type = 'button';
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg><span>اشتراک‌گذاری افتخارات</span>';
+    btn.addEventListener('click', function () {
+      var url = location.href.split('#')[0];
+      if (navigator.share) {
+        try {
+          navigator.share({ title: 'افتخارات ' + student.name, url: url }).catch(function (err) {
+            if (err && err.name === 'AbortError') return;
+            notifyCopied(url);
+          });
+          return;
+        } catch (e) { /* ادامه با کپی */ }
+      }
+      notifyCopied(url);
+    });
+    shareWrap.appendChild(btn);
+    prog.appendChild(shareWrap);
     app.appendChild(prog);
 
     function makeCard(id, extraClass, idx) {
