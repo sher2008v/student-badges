@@ -124,7 +124,7 @@ const BADGE_CATALOG = {
 
 const STUDENTS = {
   "x7k2p9qa": { name: "آرین فروزان فرد",        earned: [] },
-  "m4t8ryn3": { name: "ابوالفضل خدری",           earned: [] },
+  "m4t8ryn3": { name: "ابوالفضل خدری",           earned: ['b1'] },
   "b9c2hw6e": { name: "ارشیا امیری",             earned: [] },
   "q5v1zd8s": { name: "امیررضا جلالی اصفهان",    earned: ['b1'] },
   "k2n7fe4j": { name: "امیررضا ورناصری",         earned: [] },
@@ -132,10 +132,10 @@ const STUDENTS = {
   "w6p9ta2m": { name: "امیرعلی شکیبا",           earned: [] },
   "d3j5xc7b": { name: "آراد نظرزاده",            earned: [] },
   "r1g8lq4n": { name: "آروین امیری",             earned: [] },
-  "t7e2ym9k": { name: "بهتاش رحیمی نیا",         earned: [] },
+  "t7e2ym9k": { name: "بهتاش رحیمی نیا",         earned: ['b1'] },
   "z4u6oi3f": { name: "بهراد ناصری کریموند",     earned: ['b1'] },
   "c8f1bn5w": { name: "سامیار حاجتی",            earned: [] },
-  "y2m9kd7h": { name: "سهیل عساکره",             earned: [] },
+  "y2m9kd7h": { name: "سهیل عساکره",             earned: ['b1'] },
   "e5a3rv8p": { name: "سورنا اسکندری",           earned: [] },
   "u9l6sj2t": { name: "عباس زهریان نژاد",        earned: [] },
   "g3q7hx4c": { name: "علی ممبینی",              earned: [] },
