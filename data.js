@@ -123,24 +123,24 @@ const BADGE_CATALOG = {
 };
 
 const STUDENTS = {
-  "x7k2p9qa": { name: "آرین فروزان فرد",        earned: [] },
+  "x7k2p9qa": { name: "آرین فروزان فرد",        earned: ['b1'] },
   "m4t8ryn3": { name: "ابوالفضل خدری",           earned: ['b1'] },
-  "b9c2hw6e": { name: "ارشیا امیری",             earned: [] },
+  "b9c2hw6e": { name: "ارشیا امیری",             earned: ['b1'] },
   "q5v1zd8s": { name: "امیررضا جلالی اصفهان",    earned: ['b1'] },
-  "k2n7fe4j": { name: "امیررضا ورناصری",         earned: [] },
-  "h8s3ug1r": { name: "امیرعلی پوریافر",         earned: [] },
-  "w6p9ta2m": { name: "امیرعلی شکیبا",           earned: [] },
-  "d3j5xc7b": { name: "آراد نظرزاده",            earned: [] },
-  "r1g8lq4n": { name: "آروین امیری",             earned: [] },
+  "k2n7fe4j": { name: "امیررضا ورناصری",         earned: ['b1'] },
+  "h8s3ug1r": { name: "امیرعلی پوریافر",         earned: ['b1'] },
+  "w6p9ta2m": { name: "امیرعلی شکیبا",           earned: ['b1'] },
+  "d3j5xc7b": { name: "آراد نظرزاده",            earned: ['b1'] },
+  "r1g8lq4n": { name: "آروین امیری",             earned: ['b1'] },
   "t7e2ym9k": { name: "بهتاش رحیمی نیا",         earned: ['b1'] },
   "z4u6oi3f": { name: "بهراد ناصری کریموند",     earned: ['b1'] },
-  "c8f1bn5w": { name: "سامیار حاجتی",            earned: [] },
+  "c8f1bn5w": { name: "سامیار حاجتی",            earned: ['b1'] },
   "y2m9kd7h": { name: "سهیل عساکره",             earned: ['b1'] },
-  "e5a3rv8p": { name: "سورنا اسکندری",           earned: [] },
-  "u9l6sj2t": { name: "عباس زهریان نژاد",        earned: [] },
-  "g3q7hx4c": { name: "علی ممبینی",              earned: [] },
+  "e5a3rv8p": { name: "سورنا اسکندری",           earned: ['b1'] },
+  "u9l6sj2t": { name: "عباس زهریان نژاد",        earned: ['b1'] },
+  "g3q7hx4c": { name: "علی ممبینی",              earned: ['b1'] },
   "p6w2ze9d": { name: "علیرضا سطوت",             earned: ['b1'] },
-  "n8b4ka1v": { name: "علیرضا کاظمی",            earned: [] },
-  "f1x5tm7y": { name: "محمدطاها خدادادی",        earned: [] },
-  "j7r9cw3g": { name: "مهراد بلادی موسوی",       earned: [] }
+  "n8b4ka1v": { name: "علیرضا کاظمی",            earned: ['b1'] },
+  "f1x5tm7y": { name: "محمدطاها خدادادی",        earned: ['b1'] },
+  "j7r9cw3g": { name: "مهراد بلادی موسوی",       earned: ['b1'] }
 };
